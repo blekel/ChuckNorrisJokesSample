@@ -1,0 +1,16 @@
+package blekel.sample.chucknorris.util
+
+import android.databinding.BindingAdapter
+import android.view.View
+
+/**
+ * Created by Vitaliy Levonyuk on 14.11.2018
+ */
+
+object BindingAdapters {
+
+    @BindingAdapter("android:visibility")
+    fun setVisibility(view: View, isVisible: Boolean) {
+        view.visible = isVisible
+    }
+}

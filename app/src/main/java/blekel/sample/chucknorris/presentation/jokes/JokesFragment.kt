@@ -1,0 +1,21 @@
+package blekel.sample.chucknorris.presentation.jokes
+
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import blekel.sample.chucknorris.R
+
+class JokesFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = JokesFragment()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_jokes, container, false)
+    }
+}
