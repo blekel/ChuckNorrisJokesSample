@@ -1,4 +1,4 @@
-package blekel.sample.chucknorris.util
+package blekel.sample.chucknorris.util.view
 
 import android.view.View
 

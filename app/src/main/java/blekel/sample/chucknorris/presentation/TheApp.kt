@@ -2,6 +2,7 @@ package blekel.sample.chucknorris.presentation
 
 import android.app.Application
 import blekel.sample.chucknorris.di.manager.ComponentManager
+import io.realm.Realm
 import timber.log.Timber
 
 /**
@@ -14,11 +15,16 @@ class TheApp : Application() {
         super.onCreate()
 
         initLogger()
+        initRealm()
         initDagger()
     }
 
     private fun initLogger() {
         Timber.plant(Timber.DebugTree())
+    }
+
+    private fun initRealm() {
+        Realm.init(this)
     }
 
     private fun initDagger() {

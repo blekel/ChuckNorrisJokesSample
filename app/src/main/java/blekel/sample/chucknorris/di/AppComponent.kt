@@ -11,7 +11,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = [AppModule::class, ApiModule::class])
+@Component(modules = [AppModule::class, ApiModule::class, DatabaseModule::class])
 interface AppComponent {
     fun inject(it: TheApp)
     fun inject(it: MainActivity)

@@ -6,7 +6,7 @@ import android.databinding.ObservableBoolean
  * Created by Vitaliy Levonyuk on 14.11.2018
  */
 
-class JokeViewModel(val id: Long, val text: String) {
+class JokeViewModel(val id: String, val text: String) {
 
     val isShareVisible = ObservableBoolean()
     val isLikeVisible = ObservableBoolean()

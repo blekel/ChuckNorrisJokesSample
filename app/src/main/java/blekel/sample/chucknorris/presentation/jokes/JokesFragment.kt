@@ -12,7 +12,7 @@ import blekel.sample.chucknorris.databinding.FragmentJokesBinding
 import blekel.sample.chucknorris.di.manager.ComponentManager
 import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
-import blekel.sample.chucknorris.util.visible
+import blekel.sample.chucknorris.util.view.visible
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter

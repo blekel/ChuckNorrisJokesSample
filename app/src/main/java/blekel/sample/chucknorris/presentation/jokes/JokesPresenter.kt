@@ -29,7 +29,7 @@ class JokesPresenter @Inject constructor(
 
     fun loadJokes() {
         addSubscription(
-            interactor.getNextJokes()
+            interactor.loadNextJokes()
                 .observeOn(Schedulers.computation())
                 .map { mapItems(it) }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,7 +44,7 @@ class JokesPresenter @Inject constructor(
         return items.map {
             val model = JokeViewModel(it.id, it.text)
             model.isShareVisible.set(type == JokeListType.MAIN)
-            model.isLikeVisible.set(type == JokeListType.MAIN)
+            model.isLikeVisible.set(type == JokeListType.MAIN && !it.isLiked)
             model.isDeleteVisible.set(type == JokeListType.MY_JOKES)
             model
         }

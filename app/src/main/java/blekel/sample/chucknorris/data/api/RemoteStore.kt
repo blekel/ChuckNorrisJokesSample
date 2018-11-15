@@ -22,7 +22,7 @@ class JokeRemoteStore @Inject constructor(
             .map { it.jokes }
             .flattenAsObservable { it -> it }
             .map { dto ->
-                Joke(dto.id, dto.text)
+                Joke(dto.id.toString(), dto.text)
             }
             .toList()
     }
