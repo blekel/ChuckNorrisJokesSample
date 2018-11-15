@@ -3,6 +3,7 @@ package blekel.sample.chucknorris.presentation.jokes
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,10 @@ import android.view.ViewGroup
 import blekel.sample.chucknorris.R
 import blekel.sample.chucknorris.databinding.FragmentJokesBinding
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
+import blekel.sample.chucknorris.presentation.main.MainActivity
 import blekel.sample.chucknorris.util.view.visible
 import com.arellomobile.mvp.MvpAppCompatFragment
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 /**
  * Created by Vitaliy Levonyuk on 14.11.2018
@@ -62,6 +65,16 @@ abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
         shareIntent.type = "text/plain"
 
         context.startActivity(Intent.createChooser(shareIntent, title))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val fabView = (activity as MainActivity).fab
+        setupFabView(fabView)
+    }
+
+    open fun setupFabView(fabView: FloatingActionButton) {
+        fabView.visible = false
     }
 
     private fun updateEmptyView() {

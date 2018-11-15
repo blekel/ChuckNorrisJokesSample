@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="blekel.sample.chucknorris.presentation.jokes.add.AddJokeContract" />
+
+        <variable
+            name="model"
+            type="blekel.sample.chucknorris.presentation.jokes.add.model.AddJokeViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="8dp">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/etInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLength="@{AddJokeContract.INPUT_LIMIT}"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:text="@={model.input}"
+            android:textColor="#444"
+            android:textSize="16sp"
+            tools:text="Sample text" />
+
+        <TextView
+            android:id="@+id/tvLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{model.limit}"
+            android:textColor="#aaa"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etInput"
+            tools:text="105 / 120" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

@@ -1,8 +1,11 @@
 package blekel.sample.chucknorris.presentation.jokes.my
 
 import android.content.Context
+import android.support.design.widget.FloatingActionButton
 import blekel.sample.chucknorris.di.manager.ComponentManager
 import blekel.sample.chucknorris.presentation.jokes.BaseJokesFragment
+import blekel.sample.chucknorris.presentation.jokes.add.AddJokeDialog
+import blekel.sample.chucknorris.util.view.visible
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -29,5 +32,18 @@ class MyJokesFragment : BaseJokesFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         ComponentManager.getInstance().appComponent.inject(this)
+    }
+
+    override fun setupFabView(fabView: FloatingActionButton) {
+        fabView.setOnClickListener {
+            showAddJokeDialog()
+        }
+        fabView.visible = true
+    }
+
+    private fun showAddJokeDialog() {
+        AddJokeDialog
+            .newInstance()
+            .show(fragmentManager, AddJokeDialog.TAG)
     }
 }

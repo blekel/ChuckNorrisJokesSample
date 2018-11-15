@@ -12,7 +12,6 @@ import blekel.sample.chucknorris.presentation.jokes.BaseJokesFragment
 import blekel.sample.chucknorris.presentation.jokes.main.JokesFragment
 import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
 import blekel.sample.chucknorris.presentation.jokes.my.MyJokesFragment
-import blekel.sample.chucknorris.util.view.visible
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -35,13 +34,8 @@ class MainActivity : MvpAppCompatActivity(),
         inject()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener {
-            // TODO: impl
-        }
-        fab.visible = false
-
         setupNavigationDrawer()
         nav_view.setNavigationItemSelectedListener(this)
     }
