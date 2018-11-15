@@ -3,6 +3,7 @@ package blekel.sample.chucknorris.presentation.jokes
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import blekel.sample.chucknorris.R
 import blekel.sample.chucknorris.databinding.FragmentJokesBinding
 import blekel.sample.chucknorris.di.manager.ComponentManager
 import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
+import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
 import blekel.sample.chucknorris.util.visible
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -40,6 +42,7 @@ class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
     lateinit var presenter: JokesPresenter
 
     private lateinit var binding: FragmentJokesBinding
+    private val adapter = JokesAdapter()
 
     @ProvidePresenter
     fun providePresenter() = presenter
@@ -47,6 +50,9 @@ class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         ComponentManager.getInstance().appComponent.inject(this)
+
+        val type = getTypeParam(this)
+        presenter.init(type)
     }
 
     override fun onCreateView(
@@ -54,11 +60,21 @@ class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_jokes, container, false)
 
-        val type = getTypeParam(this)
-        // TODO: rm temp
-        binding.tvEmpty.text = type.name
-        binding.tvEmpty.visible = true
+//        val type = getTypeParam(this)
+//        // TODO: rm temp
+//        binding.tvEmpty.text = type.name
+//        binding.tvEmpty.visible = true
+
+        binding.rvItems.adapter = adapter
+        binding.rvItems.layoutManager = LinearLayoutManager(context)
+
+        presenter.loadJokes()
 
         return binding.root
+    }
+
+    override fun showJokes(items: List<JokeViewModel>) {
+        adapter.setItems(items)
+        binding.tvEmpty.visible = items.isEmpty()
     }
 }

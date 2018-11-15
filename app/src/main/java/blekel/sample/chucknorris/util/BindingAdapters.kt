@@ -9,6 +9,7 @@ import android.view.View
 
 object BindingAdapters {
 
+    @JvmStatic
     @BindingAdapter("android:visibility")
     fun setVisibility(view: View, isVisible: Boolean) {
         view.visible = isVisible

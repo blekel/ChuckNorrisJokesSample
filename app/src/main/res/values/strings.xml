@@ -12,4 +12,8 @@
 
     <string name="no_data">No data</string>
 
+    <string name="btn_share">Share</string>
+    <string name="btn_like">Like</string>
+    <string name="btn_delete">Delete</string>
+
 </resources>

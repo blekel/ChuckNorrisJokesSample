@@ -18,22 +18,26 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
+        app:cardElevation="12dp"
         app:cardUseCompatPadding="false"
         app:contentPadding="0dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="4dp"
-            android:padding="0dp">
+            android:padding="4dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="4dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="0dp"
                 android:text="@{model.text}"
+                android:textColor="#676767"
+                android:textSize="16sp"
                 tools:text="When Chuck Norris throws exceptions, it's across the room. \nChuck Norris lost his virginity before his dad did. \nTo Chuck Norris, everything contains a vulnerability." />
 
 
@@ -42,10 +46,11 @@
                 style="@style/Main.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Share"
+                android:onClick="@{() -> model.onShareClick()}"
+                android:text="@string/btn_share"
                 android:visibility="@{model.isShareVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/btnLike"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/tvText"
                 tools:visibility="visible" />
 
             <TextView
@@ -53,10 +58,11 @@
                 style="@style/Main.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Like"
+                android:onClick="@{() -> model.onLikeClick()}"
+                android:text="@string/btn_like"
                 android:visibility="@{model.isLikeVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/btnDelete"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/tvText"
                 tools:visibility="visible" />
 
             <TextView
@@ -64,10 +70,11 @@
                 style="@style/Main.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:onClick="@{() -> model.onDeleteClick()}"
+                android:text="@string/btn_delete"
                 android:visibility="@{model.isDeleteVisible()}"
-                app:layout_constraintEnd_toEndOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="@+id/tvText"
+                app:layout_constraintTop_toBottomOf="@+id/tvText"
                 tools:visibility="visible" />
 
         </android.support.constraint.ConstraintLayout>

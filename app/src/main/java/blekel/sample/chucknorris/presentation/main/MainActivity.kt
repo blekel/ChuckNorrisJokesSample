@@ -10,6 +10,7 @@ import blekel.sample.chucknorris.R
 import blekel.sample.chucknorris.di.manager.ComponentManager
 import blekel.sample.chucknorris.presentation.jokes.JokesFragment
 import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
+import blekel.sample.chucknorris.util.visible
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -38,6 +39,7 @@ class MainActivity : MvpAppCompatActivity(),
         fab.setOnClickListener {
             // TODO: impl
         }
+        fab.visible = false
 
         setupNavigationDrawer()
         nav_view.setNavigationItemSelectedListener(this)

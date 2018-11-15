@@ -12,9 +12,10 @@
 
     <style name="Main.Button">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
-        <item name="android:minWidth">80dp</item>
+        <item name="android:minWidth">64dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
