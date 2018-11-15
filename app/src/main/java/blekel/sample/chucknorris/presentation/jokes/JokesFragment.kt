@@ -1,6 +1,7 @@
 package blekel.sample.chucknorris.presentation.jokes
 
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -60,21 +61,34 @@ class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_jokes, container, false)
 
-//        val type = getTypeParam(this)
-//        // TODO: rm temp
-//        binding.tvEmpty.text = type.name
-//        binding.tvEmpty.visible = true
-
         binding.rvItems.adapter = adapter
         binding.rvItems.layoutManager = LinearLayoutManager(context)
 
-        presenter.loadJokes()
-
         return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.loadJokes()
     }
 
     override fun showJokes(items: List<JokeViewModel>) {
         adapter.setItems(items)
         binding.tvEmpty.visible = items.isEmpty()
+    }
+
+    override fun shareItem(item: JokeViewModel) {
+        val context = context ?: return
+        val text = item.item.text
+        val title = "Share"
+
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_TITLE, title)
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text)
+        shareIntent.type = "text/plain"
+
+        context.startActivity(Intent.createChooser(shareIntent, title))
     }
 }

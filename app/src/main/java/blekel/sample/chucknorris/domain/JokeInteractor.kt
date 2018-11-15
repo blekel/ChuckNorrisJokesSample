@@ -2,6 +2,7 @@ package blekel.sample.chucknorris.domain
 
 import blekel.sample.chucknorris.data.repository.JokeRepository
 import dagger.Reusable
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -14,6 +15,12 @@ import javax.inject.Inject
 class JokeInteractor @Inject constructor(
     private val repository: JokeRepository
 ) {
+
+    fun save(item: Joke): Completable {
+        return Completable.fromAction {
+            repository.save(item)
+        }.subscribeOn(Schedulers.io())
+    }
 
     fun loadNextJokes(): Single<List<Joke>> {
         return repository.loadJokes()
