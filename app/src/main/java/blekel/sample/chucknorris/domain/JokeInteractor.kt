@@ -22,6 +22,12 @@ class JokeInteractor @Inject constructor(
         }.subscribeOn(Schedulers.io())
     }
 
+    fun delete(item: Joke): Completable {
+        return Completable.fromAction {
+            repository.delete(item)
+        }.subscribeOn(Schedulers.io())
+    }
+
     fun loadNextJokes(): Single<List<Joke>> {
         return repository.loadJokes()
             .subscribeOn(Schedulers.io())
@@ -31,6 +37,10 @@ class JokeInteractor @Inject constructor(
             .doOnSuccess { items ->
                 repository.save(items)
             }
+    }
+
+    fun getMyJokes(): Single<List<Joke>> {
+        return repository.getMyCachedJokes()
     }
 
     private fun restoreItemsFromLocal(items: List<Joke>): Single<List<Joke>> {

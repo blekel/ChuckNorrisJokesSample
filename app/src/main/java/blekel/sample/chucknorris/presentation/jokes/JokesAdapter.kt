@@ -14,11 +14,19 @@ import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
 
 class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
 
-    private var items = emptyList<JokeViewModel>()
+    private var items = mutableListOf<JokeViewModel>()
 
     fun setItems(items: List<JokeViewModel>) {
-        this.items = items
+        this.items = items.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun removeItem(item: JokeViewModel) {
+        val index = items.indexOf(item)
+        if (index != -1) {
+            items.remove(item)
+        }
+        notifyItemRemoved(index)
     }
 
     override fun getItemCount(): Int {

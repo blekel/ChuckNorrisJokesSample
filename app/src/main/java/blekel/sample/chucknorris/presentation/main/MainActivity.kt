@@ -16,7 +16,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(),
@@ -75,25 +74,15 @@ class MainActivity : MvpAppCompatActivity(),
     }
 
     override fun openJokes(type: JokeListType) {
-        val transaction = supportFragmentManager.beginTransaction()
-        supportFragmentManager.fragments.forEach {
-            transaction.hide(it)
-        }
-
         setTitle(getTitle(type))
 
         val tag = type.name
-        var fragment = supportFragmentManager.findFragmentByTag(tag)
-        if (fragment == null) {
-            fragment = JokesFragment.newInstance(type)
+        val fragment = supportFragmentManager.findFragmentByTag(tag)
+            ?: JokesFragment.newInstance(type)
 
-            Timber.v("add fragment: $type -> $fragment");
-            transaction.add(R.id.vgContentRoot, fragment, tag)
-        } else {
-            Timber.v("show fragment: $type -> $fragment");
-            transaction.show(fragment)
-        }
-        transaction.commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.vgContentRoot, fragment, tag)
+            .commitAllowingStateLoss()
     }
 
     private fun inject() {

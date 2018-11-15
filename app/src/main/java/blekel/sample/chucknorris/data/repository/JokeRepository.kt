@@ -25,19 +25,24 @@ class JokeRepository @Inject constructor(
         localStore.save(items)
     }
 
-    fun loadJokes(): Single<List<Joke>> {
-        return remoteStore.loadJokes()
+    fun delete(item: Joke) {
+        localStore.delete(item)
     }
 
-    fun getCachedJokes(): Single<List<Joke>> {
-        return Single.fromCallable {
-            localStore.getAll()
-        }
+    fun loadJokes(): Single<List<Joke>> {
+        return remoteStore.loadJokes()
     }
 
     fun getCachedJokes(ids: List<String>): Single<List<Joke>> {
         return Single.fromCallable {
             localStore.getByIds(ids)
+        }
+    }
+
+    fun getMyCachedJokes(): Single<List<Joke>> {
+        return Single.fromCallable {
+            localStore.getAll()
+                .filter { it.isLiked || it.isMy }
         }
     }
 }

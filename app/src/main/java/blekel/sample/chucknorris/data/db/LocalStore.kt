@@ -32,6 +32,12 @@ class JokeLocalStore @Inject constructor() : BaseLocalStore<JokeDb>(JokeDb::clas
         }
     }
 
+    fun delete(item: Joke) {
+        RealmUtils.transaction { realm ->
+            delete(item.id)
+        }
+    }
+
     fun getByIds(ids: List<String>): List<Joke> {
         return RealmUtils.transaction { realm ->
             findByIds(ids)
@@ -60,5 +66,5 @@ class JokeLocalStore @Inject constructor() : BaseLocalStore<JokeDb>(JokeDb::clas
         }
     }
 
-    private fun mapItem(it: JokeDb) = Joke(it.id, it.text)
+    private fun mapItem(it: JokeDb) = Joke(it.id, it.text, it.isLiked, it.isMy)
 }

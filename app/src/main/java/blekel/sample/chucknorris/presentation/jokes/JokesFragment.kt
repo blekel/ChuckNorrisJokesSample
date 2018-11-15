@@ -75,7 +75,12 @@ class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
 
     override fun showJokes(items: List<JokeViewModel>) {
         adapter.setItems(items)
-        binding.tvEmpty.visible = items.isEmpty()
+        updateEmptyView()
+    }
+
+    override fun removeItem(item: JokeViewModel) {
+        adapter.removeItem(item)
+        updateEmptyView()
     }
 
     override fun shareItem(item: JokeViewModel) {
@@ -90,5 +95,9 @@ class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
         shareIntent.type = "text/plain"
 
         context.startActivity(Intent.createChooser(shareIntent, title))
+    }
+
+    private fun updateEmptyView() {
+        binding.tvEmpty.visible = adapter.itemCount == 0
     }
 }

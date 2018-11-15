@@ -16,6 +16,7 @@ interface JokesContract {
     @StateStrategyType(AddToEndSingleStrategy::class)
     interface View : MvpView {
         fun showJokes(items: List<JokeViewModel>)
+        fun removeItem(item: JokeViewModel)
 
         @StateStrategyType(OneExecutionStateStrategy::class)
         fun shareItem(item: JokeViewModel)
@@ -23,7 +24,7 @@ interface JokesContract {
 
     interface Presenter {
         fun init(type: JokeListType)
-        fun loadJokes()
+        fun loadJokes(reload: Boolean = false)
     }
 
     interface ItemClickListener {

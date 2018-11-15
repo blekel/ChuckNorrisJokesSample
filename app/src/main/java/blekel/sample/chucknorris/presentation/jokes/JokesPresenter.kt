@@ -8,6 +8,8 @@ import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
 import blekel.sample.chucknorris.util.rx.CompletableSubscriberSimple
 import blekel.sample.chucknorris.util.rx.SubscriberSimple
 import com.arellomobile.mvp.InjectViewState
+import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -30,15 +32,18 @@ class JokesPresenter @Inject constructor(
         this.type = type
     }
 
-    override fun loadJokes() {
+    override fun loadJokes(reload: Boolean) {
         addSubscription(
-            interactor.loadNextJokes()
+            loadJokesImpl()
                 .observeOn(Schedulers.computation())
                 .map { mapItems(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(SubscriberSimple.create { items ->
+                    if (reload || type == JokeListType.MY_JOKES) {
+                        showingItems.clear()
+                    }
                     showingItems.addAll(items)
-                    viewState.showJokes(items)
+                    viewState.showJokes(showingItems)
                 })
         )
     }
@@ -58,7 +63,33 @@ class JokesPresenter @Inject constructor(
     }
 
     override fun onDeleteClick(model: JokeViewModel) {
-        // TODO: impl
+        val item = model.item
+        var operation: Completable? = null
+
+        when {
+            item.isLiked -> {
+                item.isLiked = false
+                operation = interactor.save(model.item)
+            }
+            item.isMy -> {
+                operation = interactor.delete(model.item)
+            }
+        }
+        if (operation != null) {
+            operation
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(CompletableSubscriberSimple.create {
+                    showingItems.remove(model)
+                    viewState.removeItem(model)
+                })
+        }
+    }
+
+    private fun loadJokesImpl(): Single<List<Joke>> {
+        return when (type) {
+            JokeListType.MAIN -> interactor.loadNextJokes()
+            JokeListType.MY_JOKES -> interactor.getMyJokes()
+        }
     }
 
     private fun mapItems(items: List<Joke>): List<JokeViewModel> {
