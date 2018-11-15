@@ -1,6 +1,5 @@
 package blekel.sample.chucknorris.presentation.jokes
 
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -10,51 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import blekel.sample.chucknorris.R
 import blekel.sample.chucknorris.databinding.FragmentJokesBinding
-import blekel.sample.chucknorris.di.manager.ComponentManager
-import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
 import blekel.sample.chucknorris.util.view.visible
 import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
-import javax.inject.Inject
 
-class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
+/**
+ * Created by Vitaliy Levonyuk on 14.11.2018
+ */
 
-    companion object {
-        private const val PARAM_TYPE = "type"
-
-        fun newInstance(type: JokeListType): JokesFragment {
-            val ret = JokesFragment()
-            val args = Bundle()
-            args.putString(PARAM_TYPE, type.name)
-            ret.arguments = args
-            return ret
-        }
-
-        private fun getTypeParam(self: JokesFragment): JokeListType {
-            val param = self.arguments!!.getString(PARAM_TYPE)!!
-            return JokeListType.lookup(param)
-        }
-    }
-
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: JokesPresenter
+abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
 
     private lateinit var binding: FragmentJokesBinding
     private val adapter = JokesAdapter()
 
-    @ProvidePresenter
-    fun providePresenter() = presenter
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        ComponentManager.getInstance().appComponent.inject(this)
-
-        val type = getTypeParam(this)
-        presenter.init(type)
-    }
+    abstract fun getPresenter(): JokesContract.Presenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -67,10 +35,9 @@ class JokesFragment : MvpAppCompatFragment(), JokesContract.View {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.loadJokes()
+        getPresenter().loadJokes()
     }
 
     override fun showJokes(items: List<JokeViewModel>) {

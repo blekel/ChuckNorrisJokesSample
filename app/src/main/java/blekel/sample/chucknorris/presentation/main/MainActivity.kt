@@ -8,8 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import blekel.sample.chucknorris.R
 import blekel.sample.chucknorris.di.manager.ComponentManager
-import blekel.sample.chucknorris.presentation.jokes.JokesFragment
+import blekel.sample.chucknorris.presentation.jokes.BaseJokesFragment
+import blekel.sample.chucknorris.presentation.jokes.main.JokesFragment
 import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
+import blekel.sample.chucknorris.presentation.jokes.my.MyJokesFragment
 import blekel.sample.chucknorris.util.view.visible
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -76,17 +78,25 @@ class MainActivity : MvpAppCompatActivity(),
     override fun openJokes(type: JokeListType) {
         setTitle(getTitle(type))
 
-        val tag = type.name
-        val fragment = supportFragmentManager.findFragmentByTag(tag)
-            ?: JokesFragment.newInstance(type)
+        val fragment = getJokesFragment(type)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.vgContentRoot, fragment, tag)
+            .replace(R.id.vgContentRoot, fragment)
             .commitAllowingStateLoss()
     }
 
-    private fun inject() {
-        ComponentManager.getInstance().appComponent.inject(this)
+    private fun getTitle(type: JokeListType): Int {
+        return when (type) {
+            JokeListType.MAIN -> R.string.nav_main
+            JokeListType.MY_JOKES -> R.string.nav_my_jokes
+        }
+    }
+
+    private fun getJokesFragment(type: JokeListType): BaseJokesFragment {
+        return when (type) {
+            JokeListType.MAIN -> JokesFragment.newInstance()
+            JokeListType.MY_JOKES -> MyJokesFragment.newInstance()
+        }
     }
 
     private fun setupNavigationDrawer() {
@@ -101,10 +111,7 @@ class MainActivity : MvpAppCompatActivity(),
         toggle.syncState()
     }
 
-    private fun getTitle(type: JokeListType): Int {
-        return when (type) {
-            JokeListType.MAIN -> R.string.nav_main
-            JokeListType.MY_JOKES -> R.string.nav_my_jokes
-        }
+    private fun inject() {
+        ComponentManager.getInstance().appComponent.inject(this)
     }
 }

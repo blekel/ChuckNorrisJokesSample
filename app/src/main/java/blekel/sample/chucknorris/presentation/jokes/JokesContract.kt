@@ -1,6 +1,5 @@
 package blekel.sample.chucknorris.presentation.jokes
 
-import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
@@ -23,7 +22,6 @@ interface JokesContract {
     }
 
     interface Presenter {
-        fun init(type: JokeListType)
         fun loadJokes(reload: Boolean = false)
     }
 
