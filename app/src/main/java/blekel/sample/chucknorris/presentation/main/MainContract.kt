@@ -14,6 +14,7 @@ interface MainContract {
     @StateStrategyType(AddToEndSingleStrategy::class)
     interface View : MvpView {
         fun openJokes(type: JokeListType)
+        fun openSettings()
     }
 
     interface Presenter {

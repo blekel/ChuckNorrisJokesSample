@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pref_user_firstname_key">user_firstname</string>
+    <string name="pref_user_lastname_key">user_lastname</string>
+    <string name="pref_offline_mode_key">offline_mode</string>
+
+</resources>

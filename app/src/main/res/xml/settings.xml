@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="@string/pref_user_firstname_key"
+        android:title="Character firstname" />
+
+    <EditTextPreference
+        android:key="@string/pref_user_lastname_key"
+        android:title="Character lastname" />
+
+    <CheckBoxPreference
+        android:key="@string/pref_offline_mode_key"
+        android:title="Offline mode" />
+
+</PreferenceScreen>

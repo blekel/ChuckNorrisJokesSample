@@ -12,6 +12,7 @@ import blekel.sample.chucknorris.presentation.jokes.BaseJokesFragment
 import blekel.sample.chucknorris.presentation.jokes.main.JokesFragment
 import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
 import blekel.sample.chucknorris.presentation.jokes.my.MyJokesFragment
+import blekel.sample.chucknorris.presentation.settings.SettingsFragment
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -72,10 +73,16 @@ class MainActivity : MvpAppCompatActivity(),
     override fun openJokes(type: JokeListType) {
         setTitle(getTitle(type))
 
-        val fragment = getJokesFragment(type)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.vgContentRoot, getJokesFragment(type))
+            .commitAllowingStateLoss()
+    }
+
+    override fun openSettings() {
+        setTitle(R.string.nav_settings)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.vgContentRoot, fragment)
+            .replace(R.id.vgContentRoot, SettingsFragment.newInstance())
             .commitAllowingStateLoss()
     }
 

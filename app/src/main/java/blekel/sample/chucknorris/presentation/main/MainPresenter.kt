@@ -27,6 +27,6 @@ class MainPresenter @Inject constructor() : BasePresenter<MainContract.View>(),
     }
 
     override fun onSettingsClick() {
-        // TODO: impl
+        viewState.openSettings()
     }
 }
