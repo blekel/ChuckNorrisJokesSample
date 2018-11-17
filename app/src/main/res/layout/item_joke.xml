@@ -35,7 +35,7 @@
                 android:paddingTop="4dp"
                 android:paddingRight="12dp"
                 android:paddingBottom="0dp"
-                android:text="@{model.item.text}"
+                android:text="@{model.text}"
                 android:textColor="#676767"
                 android:textSize="16sp"
                 tools:text="When Chuck Norris throws exceptions, it's across the room. \nChuck Norris lost his virginity before his dad did. \nTo Chuck Norris, everything contains a vulnerability." />

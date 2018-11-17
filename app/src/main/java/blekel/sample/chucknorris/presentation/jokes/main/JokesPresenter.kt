@@ -2,6 +2,7 @@ package blekel.sample.chucknorris.presentation.jokes.main
 
 import blekel.sample.chucknorris.domain.Joke
 import blekel.sample.chucknorris.domain.JokeInteractor
+import blekel.sample.chucknorris.domain.SettingsInteractor
 import blekel.sample.chucknorris.presentation.jokes.BaseJokesPresenter
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
 import blekel.sample.chucknorris.util.rx.CompletableSubscriberSimple
@@ -17,8 +18,9 @@ import javax.inject.Inject
 
 @InjectViewState
 class JokesPresenter @Inject constructor(
-    private val interactor: JokeInteractor
-) : BaseJokesPresenter() {
+    private val interactor: JokeInteractor,
+    settingsInteractor: SettingsInteractor
+) : BaseJokesPresenter(settingsInteractor) {
 
     override fun loadJokes(reload: Boolean) {
         addSubscription(

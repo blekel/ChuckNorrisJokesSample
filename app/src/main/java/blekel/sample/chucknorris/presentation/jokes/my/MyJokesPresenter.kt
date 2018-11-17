@@ -2,6 +2,7 @@ package blekel.sample.chucknorris.presentation.jokes.my
 
 import blekel.sample.chucknorris.domain.Joke
 import blekel.sample.chucknorris.domain.JokeInteractor
+import blekel.sample.chucknorris.domain.SettingsInteractor
 import blekel.sample.chucknorris.presentation.jokes.BaseJokesPresenter
 import blekel.sample.chucknorris.presentation.jokes.add.AddJokeMediator
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
@@ -22,8 +23,9 @@ import javax.inject.Inject
 @InjectViewState
 class MyJokesPresenter @Inject constructor(
     private val interactor: JokeInteractor,
-    private val addJokeMediator: AddJokeMediator
-) : BaseJokesPresenter() {
+    private val addJokeMediator: AddJokeMediator,
+    settingsInteractor: SettingsInteractor
+) : BaseJokesPresenter(settingsInteractor) {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

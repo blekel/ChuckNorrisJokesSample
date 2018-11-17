@@ -22,7 +22,7 @@ class SettingsInteractor @Inject constructor(
 
     fun isOfflineMode() = repository.isOfflineMode()
 
-    private fun getUserFirstname() = repository.getUserFirstname()
+    fun getUserFirstname() = repository.getUserFirstname()
 
-    private fun getUserLastname() = repository.getUserLastname()
+    fun getUserLastname() = repository.getUserLastname()
 }

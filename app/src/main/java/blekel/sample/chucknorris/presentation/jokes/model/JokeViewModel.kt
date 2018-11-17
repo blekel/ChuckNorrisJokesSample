@@ -1,6 +1,9 @@
 package blekel.sample.chucknorris.presentation.jokes.model
 
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableField
+import android.text.Spanned
+import android.text.SpannedString
 import blekel.sample.chucknorris.domain.Joke
 import blekel.sample.chucknorris.presentation.jokes.JokesContract
 
@@ -10,6 +13,8 @@ import blekel.sample.chucknorris.presentation.jokes.JokesContract
 
 class JokeViewModel(val item: Joke, private val listener: JokesContract.ItemClickListener) {
 
+    val id = item.id
+    val text = ObservableField<Spanned>(SpannedString(""))
     val isShareVisible = ObservableBoolean()
     val isLikeVisible = ObservableBoolean()
     val isDeleteVisible = ObservableBoolean()

@@ -12,6 +12,12 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 interface JokesContract {
 
+    companion object {
+        const val DEFAULT_FIRSTNAME = "Chuck"
+        const val DEFAULT_LASTNAME = "Norris"
+        const val DEFAULT_FULL_NAME = "$DEFAULT_FIRSTNAME $DEFAULT_LASTNAME"
+    }
+
     @StateStrategyType(AddToEndSingleStrategy::class)
     interface View : MvpView {
         fun showItems(items: List<JokeViewModel>)

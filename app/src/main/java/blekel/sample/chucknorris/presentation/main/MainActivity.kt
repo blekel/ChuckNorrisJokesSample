@@ -80,6 +80,7 @@ class MainActivity : MvpAppCompatActivity(),
 
     override fun openSettings() {
         setTitle(R.string.nav_settings)
+        uncheckNavigationItems()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.vgContentRoot, SettingsFragment.newInstance())
@@ -110,6 +111,13 @@ class MainActivity : MvpAppCompatActivity(),
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+    }
+
+    private fun uncheckNavigationItems() {
+        val navMenu = nav_view.menu
+        (0 until navMenu.size()).forEach {
+            navMenu.getItem(it).isChecked = false
+        }
     }
 
     private fun inject() {
