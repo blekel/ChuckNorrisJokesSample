@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class AddJokePresenter @Inject constructor(
+    private val mediator: AddJokeMediator
 ) : BasePresenter<AddJokeContract.View>(), AddJokeContract.Presenter {
 
     private val model = AddJokeViewModel()
@@ -33,6 +34,7 @@ class AddJokePresenter @Inject constructor(
     override fun onSaveClick() {
         val inputText = model.input.get()!!
         Timber.d("new joke: $inputText")
+        mediator.addJoke(inputText)
     }
 
     override fun onCancelClick() {

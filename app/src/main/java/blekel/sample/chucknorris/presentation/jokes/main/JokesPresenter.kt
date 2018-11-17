@@ -1,8 +1,8 @@
 package blekel.sample.chucknorris.presentation.jokes.main
 
+import blekel.sample.chucknorris.domain.Joke
 import blekel.sample.chucknorris.domain.JokeInteractor
 import blekel.sample.chucknorris.presentation.jokes.BaseJokesPresenter
-import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
 import blekel.sample.chucknorris.util.rx.CompletableSubscriberSimple
 import blekel.sample.chucknorris.util.rx.SubscriberSimple
@@ -25,7 +25,7 @@ class JokesPresenter @Inject constructor(
             interactor.loadNextJokes()
                 .observeOn(Schedulers.computation())
                 .map {
-                    mapItems(it, JokeListType.MAIN)
+                    mapToModels(it)
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(SubscriberSimple.create { items ->
@@ -33,7 +33,7 @@ class JokesPresenter @Inject constructor(
                         showingItems.clear()
                     }
                     showingItems.addAll(items)
-                    viewState.showJokes(showingItems)
+                    viewState.showItems(showingItems)
                 })
         )
     }
@@ -50,5 +50,13 @@ class JokesPresenter @Inject constructor(
             .subscribe(CompletableSubscriberSimple.create {
                 model.isLikeVisible.set(false)
             })
+    }
+
+    override fun mapToModel(item: Joke): JokeViewModel {
+        val model = super.mapToModel(item)
+        model.isShareVisible.set(true)
+        model.isLikeVisible.set(!item.isLiked)
+        model.isDeleteVisible.set(false)
+        return model
     }
 }

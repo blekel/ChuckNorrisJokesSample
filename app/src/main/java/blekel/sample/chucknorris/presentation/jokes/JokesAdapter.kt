@@ -29,6 +29,11 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
         notifyItemRemoved(index)
     }
 
+    fun addItem(item: JokeViewModel) {
+        items.add(item)
+        notifyItemInserted(items.size - 1)
+    }
+
     override fun getItemCount(): Int {
         return items.size
     }

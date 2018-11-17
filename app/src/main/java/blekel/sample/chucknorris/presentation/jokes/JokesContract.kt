@@ -14,11 +14,15 @@ interface JokesContract {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     interface View : MvpView {
-        fun showJokes(items: List<JokeViewModel>)
+        fun showItems(items: List<JokeViewModel>)
+        fun addItem(item: JokeViewModel)
         fun removeItem(item: JokeViewModel)
 
         @StateStrategyType(OneExecutionStateStrategy::class)
         fun shareItem(item: JokeViewModel)
+
+        @StateStrategyType(OneExecutionStateStrategy::class)
+        fun scrollToEnd()
     }
 
     interface Presenter {

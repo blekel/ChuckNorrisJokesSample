@@ -1,13 +1,16 @@
 package blekel.sample.chucknorris.presentation.jokes.my
 
+import blekel.sample.chucknorris.domain.Joke
 import blekel.sample.chucknorris.domain.JokeInteractor
 import blekel.sample.chucknorris.presentation.jokes.BaseJokesPresenter
-import blekel.sample.chucknorris.presentation.jokes.model.JokeListType
+import blekel.sample.chucknorris.presentation.jokes.add.AddJokeMediator
 import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
+import blekel.sample.chucknorris.util.common.IdUtils
 import blekel.sample.chucknorris.util.rx.CompletableSubscriberSimple
 import blekel.sample.chucknorris.util.rx.SubscriberSimple
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -18,22 +21,28 @@ import javax.inject.Inject
 
 @InjectViewState
 class MyJokesPresenter @Inject constructor(
-    private val interactor: JokeInteractor
+    private val interactor: JokeInteractor,
+    private val addJokeMediator: AddJokeMediator
 ) : BaseJokesPresenter() {
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        observeAddJoke()
+    }
 
     override fun loadJokes(reload: Boolean) {
         addSubscription(
             interactor.getMyJokes()
                 .observeOn(Schedulers.computation())
                 .map {
-                    mapItems(it, JokeListType.MY_JOKES)
+                    mapToModels(it)
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(SubscriberSimple.create { items ->
                     showingItems.clear()
                     showingItems.addAll(items)
 
-                    viewState.showJokes(showingItems)
+                    viewState.showItems(showingItems)
                 })
         )
     }
@@ -59,5 +68,37 @@ class MyJokesPresenter @Inject constructor(
                     viewState.removeItem(model)
                 })
         }
+    }
+
+    override fun mapToModel(item: Joke): JokeViewModel {
+        val model = super.mapToModel(item)
+        model.isShareVisible.set(false)
+        model.isLikeVisible.set(false)
+        model.isDeleteVisible.set(true)
+        return model
+    }
+
+    private fun observeAddJoke() {
+        addSubscription(
+            addJokeMediator.observeAddJoke()
+                .subscribeOn(Schedulers.computation())
+                .map { text ->
+                    Joke(IdUtils.createNewId(), text, false, true)
+                }
+                .flatMap {
+                    interactor.save(it)
+                        .andThen(Observable.just(it))
+                }
+                .map {
+                    mapToModel(it)
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { item ->
+                    showingItems.add(item)
+                    viewState.addItem(item)
+                    viewState.scrollToEnd()
+                }
+        )
     }
 }

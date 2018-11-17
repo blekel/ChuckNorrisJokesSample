@@ -1,10 +1,8 @@
 package blekel.sample.chucknorris.presentation.jokes.main
 
 import android.content.Context
-import blekel.sample.chucknorris.databinding.FragmentJokesBinding
 import blekel.sample.chucknorris.di.manager.ComponentManager
 import blekel.sample.chucknorris.presentation.jokes.BaseJokesFragment
-import blekel.sample.chucknorris.presentation.jokes.JokesAdapter
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import javax.inject.Inject
@@ -22,9 +20,6 @@ class JokesFragment : BaseJokesFragment() {
     @Inject
     @InjectPresenter
     internal lateinit var presenter: JokesPresenter
-
-    private lateinit var binding: FragmentJokesBinding
-    private val adapter = JokesAdapter()
 
     @ProvidePresenter
     fun providePresenter() = presenter

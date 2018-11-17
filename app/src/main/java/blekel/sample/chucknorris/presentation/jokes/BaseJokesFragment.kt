@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
 
-    private lateinit var binding: FragmentJokesBinding
+    protected lateinit var binding: FragmentJokesBinding
     private val adapter = JokesAdapter()
 
     abstract fun getPresenter(): JokesContract.Presenter
@@ -43,14 +43,26 @@ abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
         getPresenter().loadJokes()
     }
 
-    override fun showJokes(items: List<JokeViewModel>) {
+    override fun showItems(items: List<JokeViewModel>) {
         adapter.setItems(items)
+        updateEmptyView()
+    }
+
+    override fun addItem(item: JokeViewModel) {
+        adapter.addItem(item)
         updateEmptyView()
     }
 
     override fun removeItem(item: JokeViewModel) {
         adapter.removeItem(item)
         updateEmptyView()
+    }
+
+    override fun scrollToEnd() {
+        binding.root.postDelayed({
+            val lastIndex = adapter.itemCount
+            binding.rvItems.smoothScrollToPosition(lastIndex)
+        }, 300)
     }
 
     override fun shareItem(item: JokeViewModel) {
