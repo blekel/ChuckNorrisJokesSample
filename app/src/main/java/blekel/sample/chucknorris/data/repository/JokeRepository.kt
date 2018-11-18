@@ -33,6 +33,12 @@ class JokeRepository @Inject constructor(
         return remoteStore.loadJokes()
     }
 
+    fun getCachedJokes(): Single<List<Joke>> {
+        return Single.fromCallable {
+            localStore.getAll()
+        }
+    }
+
     fun getCachedJokes(ids: List<String>): Single<List<Joke>> {
         return Single.fromCallable {
             localStore.getByIds(ids)

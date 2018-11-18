@@ -13,7 +13,8 @@ import javax.inject.Inject
 
 @Reusable
 class JokeInteractor @Inject constructor(
-    private val repository: JokeRepository
+    private val repository: JokeRepository,
+    private val settingsInteractor: SettingsInteractor
 ) {
 
     fun save(item: Joke): Completable {
@@ -29,6 +30,10 @@ class JokeInteractor @Inject constructor(
     }
 
     fun loadNextJokes(): Single<List<Joke>> {
+        if (settingsInteractor.isOfflineMode()) {
+            return repository.getCachedJokes()
+                .subscribeOn(Schedulers.io())
+        }
         return repository.loadJokes()
             .subscribeOn(Schedulers.io())
             .flatMap { items ->
