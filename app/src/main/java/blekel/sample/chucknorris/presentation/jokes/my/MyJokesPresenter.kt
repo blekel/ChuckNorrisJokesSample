@@ -40,6 +40,12 @@ class MyJokesPresenter @Inject constructor(
                     mapToModels(it)
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    viewState.showLoading(true)
+                }
+                .doFinally {
+                    viewState.showLoading(false)
+                }
                 .subscribe(SubscriberSimple.create { items ->
                     showingItems.clear()
                     showingItems.addAll(items)

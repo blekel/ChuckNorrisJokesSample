@@ -35,12 +35,20 @@ abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
         binding.rvItems.adapter = adapter
         binding.rvItems.layoutManager = LinearLayoutManager(context)
 
+        binding.swipeRefresh.setOnRefreshListener {
+            getPresenter().reloadJokes()
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getPresenter().loadJokes()
+    }
+
+    override fun showLoading(state: Boolean) {
+        binding.swipeRefresh.isRefreshing = state
     }
 
     override fun showItems(items: List<JokeViewModel>) {

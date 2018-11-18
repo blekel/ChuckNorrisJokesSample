@@ -20,6 +20,7 @@ interface JokesContract {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     interface View : MvpView {
+        fun showLoading(state: Boolean)
         fun showItems(items: List<JokeViewModel>)
         fun addItem(item: JokeViewModel)
         fun removeItem(item: JokeViewModel)
@@ -41,3 +42,8 @@ interface JokesContract {
         fun onDeleteClick(model: JokeViewModel)
     }
 }
+
+fun JokesContract.Presenter.reloadJokes() {
+    this.loadJokes(true)
+}
+
