@@ -31,10 +31,10 @@ class JokesPresenter @Inject constructor(
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    viewState.showLoading(true)
+                    showLoading(true)
                 }
                 .doFinally {
-                    viewState.showLoading(false)
+                    showLoading(false)
                 }
                 .subscribe(SubscriberSimple.create { items ->
                     if (reload) {
@@ -44,6 +44,13 @@ class JokesPresenter @Inject constructor(
                     viewState.showItems(showingItems)
                 })
         )
+    }
+
+    override fun onLastItemReached() {
+        if (showLoadingManager.isLoading) {
+            return
+        }
+        loadJokes()
     }
 
     override fun onShareClick(model: JokeViewModel) {

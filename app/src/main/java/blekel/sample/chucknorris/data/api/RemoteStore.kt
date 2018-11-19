@@ -14,7 +14,7 @@ class JokeRemoteStore @Inject constructor(
     private val apiService: ApiService
 ) {
     companion object {
-        private const val PAGE_SIZE = 20
+        private const val PAGE_SIZE = 10
     }
 
     fun loadJokes(): Single<List<Joke>> {

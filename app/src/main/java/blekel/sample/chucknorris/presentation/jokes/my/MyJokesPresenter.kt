@@ -41,10 +41,10 @@ class MyJokesPresenter @Inject constructor(
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    viewState.showLoading(true)
+                    showLoading(true)
                 }
                 .doFinally {
-                    viewState.showLoading(false)
+                    showLoading(false)
                 }
                 .subscribe(SubscriberSimple.create { items ->
                     showingItems.clear()
@@ -53,6 +53,10 @@ class MyJokesPresenter @Inject constructor(
                     viewState.showItems(showingItems)
                 })
         )
+    }
+
+    override fun onLastItemReached() {
+        // nop
     }
 
     override fun onDeleteClick(model: JokeViewModel) {

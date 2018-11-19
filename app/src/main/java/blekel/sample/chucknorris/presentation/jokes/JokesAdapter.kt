@@ -12,7 +12,8 @@ import blekel.sample.chucknorris.presentation.jokes.model.JokeViewModel
  * Created by Vitaliy Levonyuk on 15.11.2018
  */
 
-class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
+class JokesAdapter(private val listener: JokesContract.LastItemListener) :
+    RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
 
     private var items = mutableListOf<JokeViewModel>()
 
@@ -49,6 +50,13 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.binding.model = item
+        checkIsLastItem(position)
+    }
+
+    private fun checkIsLastItem(position: Int) {
+        if (position == itemCount - 1) {
+            listener.onLastItemReached()
+        }
     }
 
     class ViewHolder(val binding: ItemJokeBinding) : RecyclerView.ViewHolder(binding.root)

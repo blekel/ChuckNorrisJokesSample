@@ -14,8 +14,10 @@ abstract class BasePresenter<T : MvpView> : MvpPresenter<T>() {
 
     private var disposables = CompositeDisposable()
 
-    protected final fun addSubscription(disposable: Disposable) {
-        disposables.add(disposable)
+    protected fun addSubscription(disposable: Disposable?) {
+        if (disposable != null) {
+            disposables.add(disposable)
+        }
     }
 
     @CallSuper

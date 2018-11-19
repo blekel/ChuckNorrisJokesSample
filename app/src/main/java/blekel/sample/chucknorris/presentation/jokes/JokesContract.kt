@@ -32,7 +32,7 @@ interface JokesContract {
         fun scrollToEnd()
     }
 
-    interface Presenter {
+    interface Presenter : LastItemListener {
         fun loadJokes(reload: Boolean = false)
     }
 
@@ -40,6 +40,10 @@ interface JokesContract {
         fun onShareClick(model: JokeViewModel)
         fun onLikeClick(model: JokeViewModel)
         fun onDeleteClick(model: JokeViewModel)
+    }
+
+    interface LastItemListener {
+        fun onLastItemReached()
     }
 }
 

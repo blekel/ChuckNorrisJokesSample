@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
 
     protected lateinit var binding: FragmentJokesBinding
-    private val adapter = JokesAdapter()
+    private lateinit var adapter: JokesAdapter
 
     abstract fun getPresenter(): JokesContract.Presenter
 
@@ -31,6 +31,8 @@ abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_jokes, container, false)
+
+        adapter = JokesAdapter(getPresenter())
 
         binding.rvItems.adapter = adapter
         binding.rvItems.layoutManager = LinearLayoutManager(context)
@@ -76,7 +78,7 @@ abstract class BaseJokesFragment : MvpAppCompatFragment(), JokesContract.View {
     override fun shareItem(item: JokeViewModel) {
         val context = context ?: return
         val text = item.item.text
-        val title = "Share"
+        val title = "Share" // TODO: move to res
 
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
